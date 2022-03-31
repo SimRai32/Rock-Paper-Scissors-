@@ -35,9 +35,7 @@ function playRound(playerSelection, computerSelection){
           
 
     }
-    else{
-        return ("I do not understand");
-    }
+    
     if (x == 1){
         return 1;
     }
@@ -50,34 +48,41 @@ function playRound(playerSelection, computerSelection){
     
 
 }
-
-function game(){
-    Player = 0;
-    Computer = 0;
-    for (i=0;i<5;i++){
-        playerChoice=prompt("Choose between Rock, Paper, or Scissors!");
-        Winner=playRound(playerChoice,computerPlay());
-        if (Winner == 1){
-            Player++;
-            console.log(("You Win!"));
-        }
-        else if (Winner == 2){
-            Computer++;
-            console.log("You Lose!");
-        }
-        else{
-            console.log("It's a tie!");
-            continue;
-        }
+let player_Score = 0;
+let computer_Score = 0;
+function score(result){
+    if (result == 1){
+        computer_Score++;
+        document.getElementById("results").innerHTML ="Score:"+" "+player_Score+"-"+computer_Score;
     }
-    if(Player > Computer){
-        console.log("You won"+" "+Player+"-"+Computer+"!!");
+    else if (result == 2){
+        player_Score++;
+        document.getElementById("results").innerHTML ="Score:"+" "+player_Score+"-"+computer_Score;
     }
-    else if(Player < Computer){
-        console.log("You lose"+" "+Player+"-"+Computer+"!!");
-    }
-    else{
-        console.log("It's a tie!!"+" "+Player+"-"+Computer+"!!");
+    else if (result == 3){
+        
+        document.getElementById("results").innerHTML ="Score:"+" "+player_Score+"-"+computer_Score+" "+"Tie!!";
     }
 }
-game();
+function winner(playerScore,computerScore){
+    if (playerScore == 5){
+        document.getElementById("results").innerHTML ="Player Wins!"+" "+"Score:"+" "+player_Score+"-"+computer_Score;
+        player_Score=0;
+        computer_Score=0;
+    }
+    else if(computerScore == 5){
+        document.getElementById("results").innerHTML ="Computer Wins!"+" "+"Score:"+" "+player_Score+"-"+computer_Score;
+        player_Score=0;
+        computer_Score=0;
+    }
+    
+}
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) =>{
+button.addEventListener("click", () =>{
+    let test = playRound(button.value, computerPlay());
+    score(test);
+    winner(player_Score,computer_Score);
+   
+    });
+});
